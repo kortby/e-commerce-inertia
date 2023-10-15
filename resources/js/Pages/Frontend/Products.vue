@@ -8,11 +8,11 @@
                     <div v-for="product in products" :key="product.id">
                         <div class="relative">
                             <div class="relative h-72 w-full overflow-hidden rounded-lg">
-                                <img :src="product.image" :alt="product.name"
+                                <img :src="product.image" :alt="product.title"
                                     class="h-full w-full object-cover object-center" />
                             </div>
                             <div class="relative mt-4">
-                                <h3 class="text-sm font-medium text-gray-900">{{ product.name }}</h3>
+                                <h3 class="text-sm font-medium text-gray-900">{{ product.title }}</h3>
                                 <p class="mt-1 text-sm text-gray-500">{{ product.color }}</p>
                             </div>
                             <div
@@ -25,7 +25,7 @@
                         <div class="mt-6">
                             <a :href="product.href"
                                 class="relative flex items-center justify-center rounded-md border border-transparent bg-gray-100 px-8 py-2 text-sm font-medium text-gray-900 hover:bg-gray-200">Add
-                                to bag<span class="sr-only">, {{ product.name }}</span></a>
+                                to bag<span class="sr-only">, {{ product.title }}</span></a>
                         </div>
                     </div>
                 </div>
