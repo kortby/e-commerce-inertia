@@ -1,13 +1,5 @@
 
 <template>
-    <!--
-      This example requires updating your template:
-  
-      ```
-      <html class="h-full bg-white">
-      <body class="h-full">
-      ```
-    -->
     <div>
         <TransitionRoot as="template" :show="sidebarOpen">
             <Dialog as="div" class="relative z-50 lg:hidden" @close="sidebarOpen = false">
@@ -165,9 +157,9 @@
                         <Menu as="div" class="relative">
                             <MenuButton class="-m-1.5 flex items-center p-1.5">
                                 <span class="sr-only">Open user menu</span>
-                                <img class="h-8 w-8 rounded-full bg-gray-50"
+                                <!-- <img class="h-8 w-8 rounded-full bg-gray-50"
                                     src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                                    alt="" />
+                                    alt="" /> -->
                                 <span class="hidden lg:flex lg:items-center">
                                     <span class="ml-4 text-sm font-semibold leading-6 text-gray-900" aria-hidden="true">Tom
                                         Cook</span>
@@ -182,11 +174,25 @@
                                 leave-to-class="transform opacity-0 scale-95">
                                 <MenuItems
                                     class="absolute right-0 z-10 mt-2.5 w-32 origin-top-right rounded-md bg-white py-2 shadow-lg ring-1 ring-gray-900/5 focus:outline-none">
-                                    <MenuItem v-for="item in userNavigation" :key="item.name" v-slot="{ active }">
+                                    <!-- <MenuItem v-for="item in userNavigation" :key="item.name" v-slot="{ active }">
                                     <a :href="item.href"
                                         :class="[active ? 'bg-gray-50' : '', 'block px-3 py-1 text-sm leading-6 text-gray-900']">{{
                                             item.name }}</a>
-                                    </MenuItem>
+                                    </MenuItem> -->
+                                    <DropdownLink :href="route('profile.show')">
+                                        Profile
+                                    </DropdownLink>
+
+                                    <DropdownLink v-if="$page.props.jetstream.hasApiFeatures"
+                                        :href="route('api-tokens.index')">
+                                        API Tokens
+                                    </DropdownLink>
+                                    <!-- Authentication -->
+                                    <form @submit.prevent="logout">
+                                        <DropdownLink as="button">
+                                            Log Out
+                                        </DropdownLink>
+                                    </form>
                                 </MenuItems>
                             </transition>
                         </Menu>
@@ -228,7 +234,9 @@ import {
     UsersIcon,
     XMarkIcon,
 } from '@heroicons/vue/24/outline'
-import { ChevronDownIcon, MagnifyingGlassIcon } from '@heroicons/vue/20/solid'
+import { ChevronDownIcon, MagnifyingGlassIcon } from '@heroicons/vue/20/solid';
+import DropdownLink from '@/Components/DropdownLink.vue';
+import { Head, Link, router } from '@inertiajs/vue3';
 
 const navigation = [
     { name: 'Dashboard', href: '#', icon: HomeIcon, current: true },
@@ -245,8 +253,12 @@ const teams = [
 ]
 const userNavigation = [
     { name: 'Your profile', href: '#' },
-    { name: 'Sign out', href: '#' },
+    // { name: 'Sign out', href: '#' },
 ]
+
+const logout = () => {
+    router.post(route('logout'));
+};
 
 const sidebarOpen = ref(false)
 </script>
