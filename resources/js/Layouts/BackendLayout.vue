@@ -239,9 +239,9 @@ import DropdownLink from '@/Components/DropdownLink.vue';
 import { Head, Link, router } from '@inertiajs/vue3';
 
 const navigation = [
-    { name: 'Dashboard', href: '#', icon: HomeIcon, current: true },
+    { name: 'Dashboard', href: '/admin/dashboard', icon: HomeIcon, current: true },
+    { name: 'Products', href: '/admin/products', icon: FolderIcon, current: false },
     { name: 'Team', href: '#', icon: UsersIcon, current: false },
-    { name: 'Projects', href: '#', icon: FolderIcon, current: false },
     { name: 'Calendar', href: '#', icon: CalendarIcon, current: false },
     { name: 'Documents', href: '#', icon: DocumentDuplicateIcon, current: false },
     { name: 'Reports', href: '#', icon: ChartPieIcon, current: false },
