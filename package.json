@@ -24,6 +24,7 @@
         "@tailwindcss/aspect-ratio": "^0.4.2",
         "@tanstack/vue-table": "^8.10.7",
         "apexcharts": "^3.43.2-0",
+        "date-fns": "^2.30.0",
         "heroicons": "^2.0.18",
         "moment": "^2.29.4",
         "vue3-apexcharts": "^1.4.4"

@@ -56,7 +56,8 @@ const columnsProducts = [
     },
     {
         accessorKey: 'created_at',
-        header: 'Published',
+        header: 'Created',
+        cell: info => moment(info).format('MMMM Do YYYY'),
     },
     {
         accessorKey: 'price',
