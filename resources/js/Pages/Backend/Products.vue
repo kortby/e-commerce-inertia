@@ -17,10 +17,8 @@
                 </div>
                 <div class="mt-8 flow-root">
                     <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-                        <div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
-                            <div class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 sm:rounded-lg">
-                                <TableTanstack :data="products" :columns="columnsProducts" />
-                            </div>
+                        <div class="inline-block min-w-full py-2 align-middle">
+                            <TableTanstack :data="products" :columns="columnsProducts" />
                         </div>
                     </div>
                 </div>
@@ -57,11 +55,12 @@ const columnsProducts = [
     {
         accessorKey: 'created_at',
         header: 'Created',
-        cell: info => moment(info).format('MMMM Do YYYY'),
+        cell: info => moment(info.getValue()).format('MMMM Do YYYY'),
     },
     {
         accessorKey: 'price',
         header: 'Price',
+        cell: info => `$${info.getValue()}`,
     },
 ]
 
