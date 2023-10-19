@@ -22,6 +22,7 @@
         "@headlessui/vue": "^1.7.16",
         "@heroicons/vue": "^2.0.18",
         "@tailwindcss/aspect-ratio": "^0.4.2",
+        "@tanstack/vue-table": "^8.10.7",
         "apexcharts": "^3.43.2-0",
         "heroicons": "^2.0.18",
         "moment": "^2.29.4",
