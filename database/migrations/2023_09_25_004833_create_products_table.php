@@ -16,9 +16,6 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->string('subtitle');
-            $table->string('image');
-            $table->string('image_mime');
-            $table->integer('image_size');
             $table->longText('description');
             $table->decimal('price', 10, 2);
             $table->foreignIdFor(User::class, 'created_by')->nullable();

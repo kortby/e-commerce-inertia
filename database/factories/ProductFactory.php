@@ -19,9 +19,6 @@ class ProductFactory extends Factory
         return [
             'title' => $this->faker->word(4),
             'subtitle' => $this->faker->word(2),
-            'image' => fake()->imageUrl,
-            'image_mime' => fake()->name(),
-            'image_size' => 300,
             'description' => fake()->realText(),
             'price' => fake()->randomFloat(2, 100, 1000),
         ];

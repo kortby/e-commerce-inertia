@@ -8,7 +8,7 @@
                     <div v-for="product in products" :key="product.id">
                         <div class="relative">
                             <div class="relative h-72 w-full overflow-hidden rounded-lg">
-                                <img :src="product.image" :alt="product.title"
+                                <img src="https://picsum.photos/200/300" :alt="product.title"
                                     class="h-full w-full object-cover object-center" />
                             </div>
                             <div class="relative mt-4">

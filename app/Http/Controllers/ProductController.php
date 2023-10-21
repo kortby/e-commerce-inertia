@@ -47,12 +47,13 @@ class ProductController extends Controller
             'description' => 'required',
             'price' => 'required',
         ]);
-        Product::create([
+        $product = Product::create([
             'title' => $request->title,
             'subtitle' => $request->subtitle,
             'description' => $request->description,
             'price' => $request->price,
         ]);
+        $product->addMedia(storage_path($request->photos))->toMdeiaCollection();
         sleep(1);
 
         return redirect('/admin/products')->with('message', 'Product Created Successfully');
