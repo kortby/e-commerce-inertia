@@ -17,8 +17,8 @@ class ProductFactory extends Factory
     public function definition(): array
     {
         return [
-            'title' => fake()->slug(),
-            'slug' => fake()->jobTitle(),
+            'title' => $this->faker->word(4),
+            'subtitle' => $this->faker->word(2),
             'image' => fake()->imageUrl,
             'image_mime' => fake()->name(),
             'image_size' => 300,

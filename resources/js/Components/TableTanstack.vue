@@ -58,13 +58,14 @@ watchEffect(() => {
 
 <template>
     <div class="px-4 sm:px-6 lg:px-8">
-        <div class="mt-8 flow-root">
+        <div class="mt-2 flow-root">
             <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
                 <div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
                     <div class="my-4 flex">
-                        <div>
-                            <input type="text" class="border border-gray-400 rounded px-2 py-2" placeholder="Search"
-                                v-model="filter" />
+                        <div class="">
+                            <input type="text"
+                                class="block float-right rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                placeholder="Search" v-model="filter" />
                         </div>
                         <div class="flex-auto">
                         </div>

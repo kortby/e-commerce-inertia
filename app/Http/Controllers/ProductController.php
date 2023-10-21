@@ -11,7 +11,7 @@ class ProductController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function list()
     {
         $products = Product::all();
         return Inertia::render('Frontend/Products', compact('products'));
@@ -20,10 +20,10 @@ class ProductController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function list()
+    public function index()
     {
         $products = Product::all();
-        return Inertia::render('Backend/Products', compact('products'));
+        return Inertia::render('Backend/Products/Index', compact('products'));
     }
 
     /**
@@ -31,7 +31,9 @@ class ProductController extends Controller
      */
     public function create()
     {
-        //
+        return Inertia::render(
+            'Backend/Products/Create'
+        );
     }
 
     /**
@@ -39,7 +41,21 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'subtitle' => 'required|string|max:255',
+            'description' => 'required',
+            'price' => 'required',
+        ]);
+        Product::create([
+            'title' => $request->title,
+            'subtitle' => $request->subtitle,
+            'description' => $request->description,
+            'price' => $request->price,
+        ]);
+        sleep(1);
+
+        return redirect('/admin/products')->with('message', 'Product Created Successfully');
     }
 
     /**
@@ -55,7 +71,12 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
-        //
+        return Inertia::render(
+            'Backend/Products/Edit',
+            [
+                'product' => $product,
+            ]
+        );
     }
 
     /**
@@ -63,7 +84,22 @@ class ProductController extends Controller
      */
     public function update(Request $request, Product $product)
     {
-        //
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'subtitle' => 'required|string|max:255',
+            'description' => 'required',
+            'price' => 'required',
+        ]);
+
+        $product->title = $request->title;
+        $product->subtitle = $request->subtitle;
+        $product->description = $request->description;
+        $product->price = $request->price;
+        $product->save();
+
+        sleep(1);
+
+        return redirect('/admin/products')->with('message', 'Product Updated Successfully');
     }
 
     /**
@@ -71,6 +107,10 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
-        //
+        $product->delete();
+
+        sleep(1);
+
+        return redirect('/admin/products')->with('message', 'Product Deleted Successfully');
     }
 }

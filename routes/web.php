@@ -26,7 +26,7 @@ Route::get('/', function () {
     ]);
 });
 
-Route::get('/products', [ProductController::class, 'index'])->name('products');
+Route::get('/products', [ProductController::class, 'list'])->name('products');
 
 Route::middleware([
     'auth:sanctum',
@@ -34,5 +34,5 @@ Route::middleware([
     'verified',
 ])->group(function () {
     Route::get('/admin/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-    Route::get('/admin/products', [ProductController::class, 'list'])->name('product-list');
+    Route::resource('/admin/products', ProductController::class);
 });
