@@ -41,22 +41,31 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
+        // Validate the request data, including the uploaded images.
         $request->validate([
-            'title' => 'required|string|max:255',
-            'subtitle' => 'required|string|max:255',
+            'title' => 'required',
+            'subtitle' => 'required',
             'description' => 'required',
-            'price' => 'required',
+            'price' => 'required|numeric',
+            'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048', // Validate each uploaded image.
         ]);
-        $product = Product::create([
-            'title' => $request->title,
-            'subtitle' => $request->subtitle,
-            'description' => $request->description,
-            'price' => $request->price,
-        ]);
-        $product->addMedia(storage_path($request->photos))->toMdeiaCollection();
-        sleep(1);
 
-        return redirect('/admin/products')->with('message', 'Product Created Successfully');
+        // Create a new product.
+        $product = Product::create([
+            'title' => $request->input('title'),
+            'subtitle' => $request->input('subtitle'),
+            'description' => $request->input('description'),
+            'price' => $request->input('price'),
+        ]);
+
+        // Handle and attach the uploaded images to the product using Spatie Media Library.
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $image) {
+                $product->addMedia($image)->toMediaCollection('product_collection');
+            }
+        }
+
+        return redirect()->route('products.index')->with('success', 'Product created successfully.');
     }
 
     /**
@@ -64,7 +73,14 @@ class ProductController extends Controller
      */
     public function show(Product $product)
     {
-        //
+        $image_product =  $product->getMedia('product_collection')->first() ?  $product->getMedia('product_collection')->first()->getUrl() : 'https://picsum.photos/200/300';
+        return Inertia::render(
+            'Backend/Products/Show',
+            [
+                'product' => $product,
+                'image_product' => $image_product,
+            ]
+        );
     }
 
     /**

@@ -29,4 +29,10 @@ class Product extends Model implements HasMedia
     {
         return static::all()->last();
     }
+
+    // Define the media collections for the model.
+    public function registerMediaCollections(): void
+    {
+        $this->addMediaCollection('product_collection');
+    }
 }
