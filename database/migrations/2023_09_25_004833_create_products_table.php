@@ -22,6 +22,8 @@ return new class extends Migration
             $table->foreignIdFor(User::class, 'updated_by')->nullable();
             $table->softDeletes();
             $table->foreignIdFor(User::class, 'deleted_by')->nullable();
+
+            $table->foreignId('user_id');
             $table->timestamps();
         });
     }

@@ -36,3 +36,9 @@ Route::middleware([
     Route::get('/admin/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::resource('/admin/products', ProductController::class);
 });
+
+
+// Route::view('/{any}', function () {
+//     return Inertia::render('NotFound');
+// })->where('any', '.*');
+Route::view('/{any}', 'notfound')->where('any', '.*');

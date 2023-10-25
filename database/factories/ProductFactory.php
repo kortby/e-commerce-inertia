@@ -21,6 +21,7 @@ class ProductFactory extends Factory
             'subtitle' => $this->faker->word(2),
             'description' => fake()->realText(),
             'price' => fake()->randomFloat(2, 100, 1000),
+            'user_id' => 1
         ];
     }
 }
