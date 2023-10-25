@@ -76,8 +76,8 @@ import PrimaryButton from '@/Components/PrimaryButton.vue';
 import { CurrencyDollarIcon } from '@heroicons/vue/20/solid';
 
 
-defineProps({
-    product: Object,
+const props = defineProps({
+    user: Object,
 });
 
 const form = useForm({
@@ -86,6 +86,7 @@ const form = useForm({
     description: '',
     price: 0,
     images: [],
+    user_id: props.user.id,
 });
 
 const imageInput = ref(null);
@@ -102,6 +103,7 @@ const submitForm = () => {
     formData.append('subtitle', form.subtitle);
     formData.append('description', form.description);
     formData.append('price', form.price);
+    formData.append('user_id', form.user_id);
 
     // Append each selected image file to the FormData.
     form.images.forEach((image, index) => {

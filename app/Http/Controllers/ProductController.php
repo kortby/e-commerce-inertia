@@ -22,7 +22,8 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::all();
+        // dd(auth()->user()->id);
+        $products = Product::where('user_id', auth()->user()->id)->get();
         return Inertia::render('Backend/Products/Index', compact('products'));
     }
 
@@ -31,8 +32,12 @@ class ProductController extends Controller
      */
     public function create()
     {
+        $user = auth()->user();
         return Inertia::render(
-            'Backend/Products/Create'
+            'Backend/Products/Create',
+            [
+                'user' => $user,
+            ]
         );
     }
 
@@ -48,24 +53,30 @@ class ProductController extends Controller
             'description' => 'required',
             'price' => 'required|numeric',
             'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048', // Validate each uploaded image.
+            'user_id' => 'required', // Validate each uploaded image.
         ]);
 
-        // Create a new product.
-        $product = Product::create([
-            'title' => $request->input('title'),
-            'subtitle' => $request->input('subtitle'),
-            'description' => $request->input('description'),
-            'price' => $request->input('price'),
-        ]);
+        // dd($request->all());
+        if (auth()->check()) {
+            // Create a new product.
+            $product = Product::create([
+                'title' => $request->input('title'),
+                'subtitle' => $request->input('subtitle'),
+                'description' => $request->input('description'),
+                'price' => $request->input('price'),
+                'user_id' => $request->input('user_id'),
+            ]);
 
-        // Handle and attach the uploaded images to the product using Spatie Media Library.
-        if ($request->hasFile('images')) {
-            foreach ($request->file('images') as $image) {
-                $product->addMedia($image)->toMediaCollection('product_collection');
+            // Handle and attach the uploaded images to the product using Spatie Media Library.
+            if ($request->hasFile('images')) {
+                foreach ($request->file('images') as $image) {
+                    $product->addMedia($image)->toMediaCollection('product_collection');
+                }
             }
-        }
 
-        return redirect()->route('products.index')->with('success', 'Product created successfully.');
+            return redirect()->route('products.index')->with('success', 'Product created successfully.');
+        }
+        return redirect()->route('login')->with('error', 'You must be logged in to create a product.');
     }
 
     /**
