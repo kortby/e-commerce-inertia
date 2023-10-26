@@ -13,7 +13,7 @@ class ProductPolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->hasRole('super-admin');
+        return $user->hasRole('Super-Admin');
     }
 
     /**
@@ -21,7 +21,7 @@ class ProductPolicy
      */
     public function view(User $user, Product $product): bool
     {
-        return $user->hasRole('super-admin') || $user->id === $product->user_id;
+        return $user->hasRole('Super-Admin') && $user->id === $product->user_id;
     }
 
     /**
@@ -37,7 +37,7 @@ class ProductPolicy
      */
     public function update(User $user, Product $product): bool
     {
-        return $user->hasRole('super-admin') || $user->id === $product->user_id;
+        return $user->hasRole('Super-Admin') || $user->id === $product->user_id;
     }
 
     /**
@@ -45,7 +45,7 @@ class ProductPolicy
      */
     public function delete(User $user, Product $product): bool
     {
-        return $user->hasRole('super-admin') || $user->id === $product->user_id;
+        return $user->hasRole('Super-Admin') || $user->id === $product->user_id;
     }
 
     /**
@@ -53,7 +53,7 @@ class ProductPolicy
      */
     public function restore(User $user, Product $product): bool
     {
-        return $user->hasRole('super-admin') || $user->id === $product->user_id;
+        return $user->hasRole('Super-Admin') || $user->id === $product->user_id;
     }
 
     /**
@@ -61,6 +61,6 @@ class ProductPolicy
      */
     public function forceDelete(User $user, Product $product): bool
     {
-        return $user->hasRole('super-admin') || $user->id === $product->user_id;
+        return $user->hasRole('Super-Admin') || $user->id === $product->user_id;
     }
 }

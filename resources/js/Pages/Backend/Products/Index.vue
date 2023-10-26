@@ -50,10 +50,6 @@ const columnsProducts = [
         header: 'Title',
     },
     {
-        accessorKey: 'subtitle',
-        header: 'subtitle',
-    },
-    {
         accessorKey: 'created_at',
         header: 'Created',
         cell: info => moment(info.getValue()).format('MMMM Do YYYY'),
@@ -66,7 +62,7 @@ const columnsProducts = [
     {
         accessorKey: 'edit',
         header: ' ',
-        cell: ({ row }) => h(EditButton, { id: row.original.id }),
+        cell: ({ row }) => h(EditButton, { slug: row.original.slug }),
         enableSorting: false,
     },
 ]

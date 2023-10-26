@@ -8,7 +8,10 @@ import {
     getSortedRowModel,
     getFilteredRowModel,
 } from '@tanstack/vue-table'
-import { ChevronLeftIcon, ChevronRightIcon, ChevronDoubleRightIcon, ChevronDoubleLeftIcon } from '@heroicons/vue/20/solid'
+import {
+    ChevronLeftIcon, ChevronRightIcon, ChevronDoubleRightIcon, ChevronDoubleLeftIcon,
+    BarsArrowUpIcon, BarsArrowDownIcon
+} from '@heroicons/vue/20/solid'
 
 const props = defineProps({
     data: Array,
@@ -90,7 +93,12 @@ watchEffect(() => {
                                             'cursor-pointer select-none': header.column.getCanSort(),
                                         }" @click="header.column.getToggleSortingHandler()?.($event)">
                                         <FlexRender :render="header.column.columnDef.header" :props="header.getContext()" />
-                                        {{ { asc: ' ↑', desc: '↓' }[header.column.getIsSorted()] }}
+                                        <span v-if="header.column.getIsSorted() === 'asc'">
+                                            <BarsArrowDownIcon class="h-5 w-5 float-left pr-1" />
+                                        </span>
+                                        <span v-if="header.column.getIsSorted() === 'desc'">
+                                            <BarsArrowUpIcon class="h-5 w-5 float-left pr-1" />
+                                        </span>
                                     </th>
                                 </tr>
                             </thead>
@@ -128,23 +136,23 @@ watchEffect(() => {
                     </div>
                     <div class="flex flex-1 justify-between sm:justify-end">
                         <button
-                            class="relative inline-flex items-center rounded-md bg-white px-3 py-2 mr-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus-visible:outline-offset-0"
+                            class="relative inline-flex items-center rounded-md bg-white px-3 py-2 mr-2 text-sm font-semibold text-gray-600 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus-visible:outline-offset-0"
                             @click="table.setPageIndex(0)">
                             <ChevronDoubleLeftIcon class="h-5 w-5" aria-hidden="true" /> First
                         </button>
                         <button
-                            class="relative inline-flex items-center rounded-md bg-white px-3 py-2 mr-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus-visible:outline-offset-0"
+                            class="relative inline-flex items-center rounded-md bg-white px-3 py-2 mr-2 text-sm font-semibold text-gray-600 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus-visible:outline-offset-0"
                             :disabled="!table.getCanPreviousPage()" @click="table.previousPage()">
                             <ChevronLeftIcon class="h-5 w-5" aria-hidden="true" /> Prev
                         </button>
                         <button
-                            class="relative inline-flex items-center rounded-md bg-white px-3 py-2 mr-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus-visible:outline-offset-0"
+                            class="relative inline-flex items-center rounded-md bg-white px-3 py-2 mr-2 text-sm font-semibold text-gray-600 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus-visible:outline-offset-0"
                             :disabled="!table.getCanNextPage()" @click="table.nextPage()">
                             Next
                             <ChevronRightIcon class="h-5 w-5" aria-hidden="true" />
                         </button>
                         <button
-                            class="relative inline-flex items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus-visible:outline-offset-0"
+                            class="relative inline-flex items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-600 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus-visible:outline-offset-0"
                             @click="table.setPageIndex(table.getPageCount() - 1)">
                             Last
                             <ChevronDoubleRightIcon class="h-5 w-5" aria-hidden="true" />

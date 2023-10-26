@@ -21,7 +21,7 @@ class UserSeeder extends Seeder
             'password' => Hash::make('l^zL3z&E1y84'),
             'phone' => rand(4151001000, 4159998888),
         ]);
-        $sa->assignRole(1);
+        $sa->assignRole('Super-Admin');
 
         $client = \App\Models\User::factory()->create([
             'name' => 'Client',

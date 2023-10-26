@@ -20,7 +20,7 @@ class RolesSeeder extends Seeder
         $clt = Role::create(['name' => 'Client']); //ID 2
 
         foreach (config('permissions') as $key => $resource) {
-            if (in_array($key, ['users', 'Product'])) {
+            if (in_array($key, ['users', 'products'])) {
                 foreach ($resource as $permission) {
                     $sa->givePermissionTo($permission);
                 }

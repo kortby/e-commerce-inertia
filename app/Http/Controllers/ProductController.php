@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ProductRequest;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -44,39 +45,22 @@ class ProductController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(ProductRequest $request)
     {
-        // Validate the request data, including the uploaded images.
-        $request->validate([
-            'title' => 'required',
-            'subtitle' => 'required',
-            'description' => 'required',
-            'price' => 'required|numeric',
-            'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048', // Validate each uploaded image.
-            'user_id' => 'required', // Validate each uploaded image.
-        ]);
+        // dd(auth()->user()->can('create-product'));
+        // dd(auth()->user()->hasRole('Super-Admin'));
+        // Create a new product.
+        $product = Product::create($request->all());
+        // dd($product);
 
-        // dd($request->all());
-        if (auth()->check()) {
-            // Create a new product.
-            $product = Product::create([
-                'title' => $request->input('title'),
-                'subtitle' => $request->input('subtitle'),
-                'description' => $request->input('description'),
-                'price' => $request->input('price'),
-                'user_id' => $request->input('user_id'),
-            ]);
-
-            // Handle and attach the uploaded images to the product using Spatie Media Library.
-            if ($request->hasFile('images')) {
-                foreach ($request->file('images') as $image) {
-                    $product->addMedia($image)->toMediaCollection('product_collection');
-                }
+        // Handle and attach the uploaded images to the product using Spatie Media Library.
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $image) {
+                $product->addMedia($image)->toMediaCollection('product_collection');
             }
-
-            return redirect()->route('products.index')->with('success', 'Product created successfully.');
         }
-        return redirect()->route('login')->with('error', 'You must be logged in to create a product.');
+
+        return redirect()->route('products.index')->with('success', 'Product created successfully.');
     }
 
     /**
@@ -103,6 +87,7 @@ class ProductController extends Controller
             'Backend/Products/Edit',
             [
                 'product' => $product,
+                'user' => auth()->user(),
             ]
         );
     }
@@ -110,20 +95,21 @@ class ProductController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Product $product)
+    public function update(ProductRequest $request, Product $product)
     {
-        $request->validate([
-            'title' => 'required|string|max:255',
-            'subtitle' => 'required|string|max:255',
-            'description' => 'required',
-            'price' => 'required',
-        ]);
-
         $product->title = $request->title;
         $product->subtitle = $request->subtitle;
         $product->description = $request->description;
         $product->price = $request->price;
+        $product->user_id = $request->user_id;
         $product->save();
+
+        // Handle and attach the uploaded images to the product using Spatie Media Library.
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $image) {
+                $product->addMedia($image)->toMediaCollection('product_collection');
+            }
+        }
 
         sleep(1);
 

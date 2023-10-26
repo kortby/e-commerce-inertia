@@ -15,6 +15,7 @@
         "laravel/tinker": "^2.8",
         "spatie/laravel-medialibrary": "^10.0.0",
         "spatie/laravel-permission": "^5.11",
+        "spatie/laravel-sluggable": "^3.5",
         "tightenco/ziggy": "^1.0"
     },
     "require-dev": {
