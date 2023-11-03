@@ -36,7 +36,6 @@ import EditButton from '@/Components/EditButton.vue';
 
 defineProps({
     products: Object,
-    chart: Object,
 });
 
 const columnsProducts = [

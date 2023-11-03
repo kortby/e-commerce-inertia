@@ -1,5 +1,5 @@
 <template>
-    <FrontendLayout>
+    <FrontendLayout :itemsCartCount="products.length">
         <div class="bg-white">
             <div class="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
                 <h2 class="text-xl font-bold text-gray-900">Customers also bought</h2>
@@ -8,7 +8,7 @@
                     <div v-for="product in products" :key="product.id">
                         <div class="relative">
                             <div class="relative h-72 w-full overflow-hidden rounded-lg">
-                                <img src="https://picsum.photos/200/300" :alt="product.title"
+                                <img :src="product.media[0]?.original_url" :alt="product.title"
                                     class="h-full w-full object-cover object-center" />
                             </div>
                             <div class="relative mt-4">
@@ -23,9 +23,9 @@
                             </div>
                         </div>
                         <div class="mt-6">
-                            <a :href="product.href"
+                            <a :href="product.href" @click="addToCart(product)"
                                 class="relative flex items-center justify-center rounded-md border border-transparent bg-gray-100 px-8 py-2 text-sm font-medium text-gray-900 hover:bg-gray-200">Add
-                                to bag<span class="sr-only">, {{ product.title }}</span></a>
+                                to Cart<span class="sr-only">, {{ product.title }}</span></a>
                         </div>
                     </div>
                 </div>
@@ -36,9 +36,16 @@
 
 <script setup>
 import FrontendLayout from '../../Layouts/FrontendLayout.vue';
-import { Head, Link } from '@inertiajs/vue3';
+import { Head, Link, router } from '@inertiajs/vue3';
 
 defineProps({
     products: Object,
 });
+
+
+const addToCart = (product) => {
+    router.post(route('cart.add', { product: product.slug }), {
+        quantity: 1,
+    });
+}
 </script>

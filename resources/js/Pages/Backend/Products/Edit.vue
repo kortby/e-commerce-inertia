@@ -47,9 +47,21 @@
                                 </div>
                                 <div class="mt-4">
                                     <InputLabel for="images" value="Images" />
-                                    <input id="images" type="file" class="mt-1 block w-full border-gray-300" required
-                                        autofocus ref="imageInput" @change="handleImageUpload" multiple>
+                                    <input id="images" type="file" class="mt-1 block w-full border-gray-300" autofocus
+                                        ref="imageInput" @change="handleImageUpload" multiple>
                                     <InputError class="mt-2" :message="form.errors.images" />
+                                    <InputLabel for="images" value="Current Images" />
+                                    <div class="relative grid grid-cols-4 gap-4">
+                                        <!-- Display the current images as thumbnails or links to remove them -->
+                                        <div v-for="(image, index) in props.product.media" :key="index">
+                                            <div class="relative">
+                                                <button class="absolute" @click="removeCurrentImage(index)">
+                                                    <XCircleIcon class="h-5 w-5 text-red-900" aria-hidden="true" />
+                                                </button>
+                                            </div>
+                                            <img :src="image.original_url" alt="Current Image" class="w-full h-auto" />
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="mt-4 ">
                                     <PrimaryButton class="ml-4 float-right" :class="{ 'opacity-25': form.processing }"
@@ -68,13 +80,13 @@
 
 <script setup>
 import { ref } from 'vue'
-import { router, useForm } from '@inertiajs/vue3'
+import { useForm } from '@inertiajs/vue3'
 import BackendLayout from '@/Layouts/BackendLayout.vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import TextInput from '@/Components/TextInput.vue';
 import InputError from '@/Components/InputError.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
-import { CurrencyDollarIcon } from '@heroicons/vue/20/solid';
+import { CurrencyDollarIcon, XCircleIcon } from '@heroicons/vue/20/solid';
 
 const props = defineProps({
     product: Object,
@@ -87,14 +99,20 @@ const form = useForm({
     subtitle: props.product.subtitle,
     description: props.product.description,
     price: props.product.price,
-    images: [], // Initialize images with an empty array
+    images: [], // Initialize images as an empty array
     user_id: props.product.user_id,
 });
 
-const imageInput = ref(null);
+const imageInput = ref(null); // Initialize the imageInput ref
 
 const handleImageUpload = () => {
-    form.images = Array.from(imageInput.value.files);
+    form.images = Array.from(imageInput.value.files); // Use form.images to store the selected images
+};
+
+// Method to remove a current image when the "Remove" button is clicked
+const removeCurrentImage = (index) => {
+    // You should remove the image from the form.images array, not the media array
+    form.images.splice(index, 1);
 };
 
 const submitForm = () => {
@@ -111,7 +129,7 @@ const submitForm = () => {
     });
 
     // Use Inertia to put the form data to your Laravel route for updating
-    form.put(route('products.update', props.product.slug));
+    form.put(route('products.update', { product: props.product.slug }), formData);
 };
 
 </script>

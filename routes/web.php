@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProductController;
 use Illuminate\Foundation\Application;
@@ -27,6 +28,17 @@ Route::get('/', function () {
 });
 
 Route::get('/products', [ProductController::class, 'list'])->name('products');
+Route::middleware([
+    'guestOrVerified',
+])->group(function () {
+    Route::prefix('/cart')->name('cart')->group(function () {
+        Route::get('/', [CartController::class, 'index'])->name('.index');
+        Route::post('/add/{product:slug}', [CartController::class, 'add'])->name('.add');
+        Route::post('/remove', [CartController::class, 'remove'])->name('.remove');
+        Route::post('/update-quantity/{product:slug}', [CartController::class, 'updateQuantity'])->name('.update-quantity');
+    });
+    Route::post('/order', [CartController::class, 'updateQuantity'])->name('order');
+});
 
 Route::middleware([
     'auth:sanctum',

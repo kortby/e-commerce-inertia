@@ -15,6 +15,9 @@ class ProductController extends Controller
     public function list()
     {
         $products = Product::all();
+        foreach ($products as $product) {
+            $product['media'] = $product->getMedia('product_collection')->first() ?  $product->getMedia('product_collection')->first()->getUrl() : 'https://picsum.photos/200/300';
+        }
         return Inertia::render('Frontend/Products', compact('products'));
     }
 
@@ -83,6 +86,8 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
+        $product->loadMedia('product_collection');
+
         return Inertia::render(
             'Backend/Products/Edit',
             [
@@ -97,21 +102,22 @@ class ProductController extends Controller
      */
     public function update(ProductRequest $request, Product $product)
     {
-        $product->title = $request->title;
-        $product->subtitle = $request->subtitle;
-        $product->description = $request->description;
-        $product->price = $request->price;
-        $product->user_id = $request->user_id;
-        $product->save();
+        // dd($request->all);
+        // Update product details.
+        $product->update([
+            'title' => $request->input('title'),
+            'subtitle' => $request->input('subtitle'),
+            'description' => $request->input('description'),
+            'price' => $request->input('price'),
+            'user_id' => $request->input('user_id'),
+        ]);
 
         // Handle and attach the uploaded images to the product using Spatie Media Library.
         if ($request->hasFile('images')) {
             foreach ($request->file('images') as $image) {
-                $product->addMedia($image)->toMediaCollection('product_collection');
+                $product->addMedia($image)->toMediaCollection('product_images');
             }
         }
-
-        sleep(1);
 
         return redirect('/admin/products')->with('message', 'Product Updated Successfully');
     }
