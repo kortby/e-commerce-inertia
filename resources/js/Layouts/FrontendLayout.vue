@@ -67,11 +67,19 @@
                             </div>
 
                             <div class="space-y-6 border-t border-gray-200 px-4 py-6">
-                                <div class="flow-root">
-                                    <a href="#" class="-m-2 block p-2 font-medium text-gray-900">Create an account</a>
+                                <div v-if="!$page.props.auth.user">
+                                    <div class="flow-root">
+                                        <a :href="route('register')" class="-m-2 block p-2 font-medium text-gray-900">Create
+                                            an account</a>
+                                    </div>
+                                    <div class="flow-root">
+                                        <a :href="route('login')" class="-m-2 block p-2 font-medium text-gray-900">Sign
+                                            in</a>
+                                    </div>
                                 </div>
-                                <div class="flow-root">
-                                    <a href="#" class="-m-2 block p-2 font-medium text-gray-900">Sign in</a>
+                                <div v-else>
+                                    <a href="#" class="-m-2 block p-2 font-medium text-gray-900">{{
+                                        $page.props.auth.user.name }}</a>
                                 </div>
                             </div>
 
@@ -124,8 +132,15 @@
                         </form>
 
                         <div class="flex items-center space-x-6">
-                            <a href="#" class="text-sm font-medium text-white hover:text-gray-100">Sign in</a>
-                            <a href="#" class="text-sm font-medium text-white hover:text-gray-100">Create an account</a>
+                            <div v-if="!$page.props.auth.user">
+                                <a :href="route('login')"
+                                    class="text-sm font-medium text-white hover:text-gray-100 pr-6">Sign in</a>
+                                <a :href="route('register')"
+                                    class="text-sm font-medium text-white hover:text-gray-100">Create an account</a>
+                            </div>
+                            <a v-else href="#" class="text-sm font-medium text-white hover:text-gray-100">
+                                {{ $page.props.auth.user.name }}
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -137,7 +152,7 @@
                             <div class="flex h-16 items-center justify-between">
                                 <!-- Logo (lg+) -->
                                 <div class="hidden lg:flex lg:flex-1 lg:items-center">
-                                    <a href="#">
+                                    <a href="/">
                                         <span class="sr-only">Your Company</span>
                                         <img class="h-8 w-auto"
                                             src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600" alt="" />
@@ -214,7 +229,7 @@
                                 </div>
 
                                 <!-- Logo (lg-) -->
-                                <a href="#" class="lg:hidden">
+                                <a href="/" class="lg:hidden">
                                     <span class="sr-only">Your Company</span>
                                     <img src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600" alt=""
                                         class="h-8 w-auto" />
