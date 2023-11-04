@@ -235,14 +235,29 @@
 
                                         <!-- Cart -->
                                         <div class="ml-4 flow-root lg:ml-8">
-                                            <a href="/cart" class="group -m-2 flex items-center p-2">
+                                            <a v-if="props.itemsCartCount < 1" href="/cart"
+                                                class="group -m-2 flex items-center p-2">
                                                 <ShoppingBagIcon
                                                     class="h-6 w-6 flex-shrink-0 text-gray-400 group-hover:text-gray-500"
                                                     aria-hidden="true" />
                                                 <span
                                                     class="ml-2 text-sm font-medium text-gray-700 group-hover:text-gray-800">
-                                                    {{ itemsCartCount ? itemsCartCount : '0' }}
+                                                    {{ props.itemsCartCount }}
                                                 </span>
+                                                <span class="sr-only">items in cart, view bag</span>
+                                            </a>
+                                            <a v-else href="/cart"
+                                                class="relative inline-flex items-center p-3 text-sm font-medium text-center text-white bg-cyan-700 rounded-lg hover:bg-cyan-800 focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:bg-cyan-600 dark:hover:bg-cyan-700 dark:focus:ring-cyan-800">
+                                                <ShoppingBagIcon
+                                                    class="h-6 w-6 flex-shrink-0 text-white-400 group-hover:text-white-500"
+                                                    aria-hidden="true" />
+                                                <div
+                                                    class="absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-red-500 border-2 rounded-full -top-2 -right-2">
+                                                    {{ props.itemsCartCount }}</div>
+                                                <!-- <span
+                                                    class="ml-2 text-sm font-medium text-gray-700 group-hover:text-gray-800">
+                                                    {{ props.itemsCartCount }}
+                                                </span> -->
                                                 <span class="sr-only">items in cart, view bag</span>
                                             </a>
                                         </div>
@@ -359,7 +374,9 @@ const navigation = {
 
 const open = ref(false)
 
-defineProps({
+
+const props = defineProps({
     itemsCartCount: Number,
 })
+
 </script>

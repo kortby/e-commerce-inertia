@@ -1,5 +1,5 @@
 <template>
-    <FrontendLayout :itemsCartCount="products.length">
+    <FrontendLayout :itemsCartCount="count">
         <div class="bg-white">
             <div class="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
                 <h2 class="text-xl font-bold text-gray-900">Customers also bought</h2>
@@ -36,10 +36,12 @@
 
 <script setup>
 import FrontendLayout from '../../Layouts/FrontendLayout.vue';
-import { Head, Link, router } from '@inertiajs/vue3';
+import { router } from '@inertiajs/vue3';
+import { ref } from 'vue'
 
 defineProps({
     products: Object,
+    count: Number,
 });
 
 

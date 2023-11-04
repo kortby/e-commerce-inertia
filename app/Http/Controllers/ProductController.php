@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProductRequest;
+use App\Models\CartItem;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -11,18 +12,21 @@ class ProductController extends Controller
 {
     /**
      * Display a listing of the resource.
+     * Frontend
      */
     public function list()
     {
         $products = Product::all();
+        $count = CartItem::count();
         foreach ($products as $product) {
             $product['media'] = $product->getMedia('product_collection')->first() ?  $product->getMedia('product_collection')->first()->getUrl() : 'https://picsum.photos/200/300';
         }
-        return Inertia::render('Frontend/Products', compact('products'));
+        return Inertia::render('Frontend/Products', compact('products', 'count'));
     }
 
     /**
      * Display a listing of the resource.
+     * Backend
      */
     public function index()
     {
